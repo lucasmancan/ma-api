@@ -1,3 +1,4 @@
+package br.com.lucasmancan.services;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
@@ -7,7 +8,7 @@ public class Pessoa {
 	@GET
 	@Path("/message")
 	public String getMessage() {
-		return "Hello World";
+		return "Hello World, Lucas";
 	}
 
 }
