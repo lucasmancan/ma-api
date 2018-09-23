@@ -20,15 +20,16 @@ import lombok.Data;
 @Entity
 @Table(name="cidades")
 public class Cidade implements Serializable {
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Id	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id")
 	private Integer id;
 	
 	@Column(name="nome", nullable = false)
 	private String nome;
 	
 	@ManyToOne
-	@JoinColumn(name="estados_id", nullable=false)
+	@JoinColumn(name="estados_id",referencedColumnName="id", nullable=false)
 	private Estado estado;
 	
 	@Temporal(TemporalType.TIMESTAMP)

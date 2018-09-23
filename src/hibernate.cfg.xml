@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	<session-factory>
-		<property name="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
 		<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
 		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/madb?useTimezone=true&amp;serverTimezone=UTC</property>
 		<property name="hibernate.connection.username">root</property>
@@ -14,18 +14,29 @@
 		<property name="hbm2ddl.auto">update</property>
 
 
+		<mapping class="br.com.lucasmancan.models.Pais" />
+		<mapping class="br.com.lucasmancan.models.Estado" />
+		<mapping class="br.com.lucasmancan.models.Cidade" />
+
+		<mapping class="br.com.lucasmancan.models.Pessoa" />
+		<mapping class="br.com.lucasmancan.models.Email" />
+		<mapping class="br.com.lucasmancan.models.Telefone" />
 		<mapping class="br.com.lucasmancan.models.Usuario" />
 		<mapping class="br.com.lucasmancan.models.Atividade" />
-		<mapping class="br.com.lucasmancan.models.Pessoa" />
-		<mapping class="br.com.lucasmancan.models.Categoria" />
-		<mapping class="br.com.lucasmancan.models.Cidade" />
 		<mapping class="br.com.lucasmancan.models.Curso" />
-		<mapping class="br.com.lucasmancan.models.Email" />
-		<mapping class="br.com.lucasmancan.models.Endereco" />
-		<mapping class="br.com.lucasmancan.models.Estado" />
 		<mapping class="br.com.lucasmancan.models.Instituicao" />
-		<mapping class="br.com.lucasmancan.models.Pais" />
-		<mapping class="br.com.lucasmancan.models.Telefone" />
+		<mapping class="br.com.lucasmancan.models.Categoria" />
+		<mapping class="br.com.lucasmancan.models.Endereco" />
+		
+
+
+
+
+
+
+
+
+
 
 
 	</session-factory>

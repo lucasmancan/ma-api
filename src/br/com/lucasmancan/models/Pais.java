@@ -20,9 +20,10 @@ import lombok.Data;
 public class Pais implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
+	@Column(name="id")
+	private Long id;
 	
-	@Column(name="nome", nullable=false)
+	@Column(name="nome", nullable=false, length=255)
 	private String nome;
 
 

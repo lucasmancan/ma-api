@@ -29,10 +29,11 @@ public class Atividade implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+	@Column(name="id")
+	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name = "usuario_id", nullable=false) 
+	@JoinColumn(name = "criador_id",referencedColumnName="id", nullable=false) 
 	private Usuario criador;
 	
 	@OneToMany(cascade = CascadeType.ALL,  targetEntity = Usuario.class, fetch = FetchType.LAZY)
@@ -56,10 +57,10 @@ public class Atividade implements Serializable{
 	@Column(name = "relatorio", nullable= false)
 	private String relatorio;
 	
-
-	@JoinColumn(name = "enderecos_id", nullable=false)
+	@ManyToOne
+	@JoinColumn(name = "enderecos_id", referencedColumnName="id", nullable=false)
 	private Endereco endereco;
 	
-	@Column(name = "total_horas", nullable= false)
+	@Column(name = "total_horas", precision=7, scale=2, nullable= false)
 	private BigDecimal totalHoras;
 }

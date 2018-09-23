@@ -21,7 +21,8 @@ import lombok.Data;
 public class Categoria implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public Integer id;
+	@Column(name="id")
+	public Long id;
 	
 	@Column(name= "nome", nullable = false)
 	public String nome;

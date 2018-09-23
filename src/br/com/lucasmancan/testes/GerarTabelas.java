@@ -1,12 +1,13 @@
-package br.com.lucasmancan.app;
+package br.com.lucasmancan.testes;
+
+import org.junit.Test;
 
 import br.com.lucasmancan.utils.HibernateUtil;
 
 public class GerarTabelas {
 	
-	
-	public static void main (String[]args){
-		
+	@Test
+	public  void gerarTabelas (){
 		HibernateUtil.getSessionFactory();
 		HibernateUtil.shutdown();
 	}

@@ -22,13 +22,14 @@ public class Curso implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	@Column(name="id")
+	private Long id;
 	
-	@Column(name="nome")
+	@Column(name="nome", nullable=false, length=255)
 	private String nome;
 	
 	@ManyToOne
-	@JoinColumn(name="instituicoes_id")
+	@JoinColumn(name="instituicoes_id", referencedColumnName="id", nullable=false)
 	private Instituicao instituicao;
 	
 	@Temporal(TemporalType.TIMESTAMP)

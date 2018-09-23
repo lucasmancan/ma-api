@@ -23,6 +23,7 @@ public class Endereco implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id")
 	private Integer id;
 
 	@Column(name = "logradouro", nullable = false)
@@ -38,7 +39,7 @@ public class Endereco implements Serializable {
 	private Integer numero;
 
 	@ManyToOne
-	@JoinColumn(name="cidades_id")
+	@JoinColumn(name="cidades_id", referencedColumnName="id", nullable=false)
 	private Cidade cidade;
 
 	@Temporal(TemporalType.TIMESTAMP)

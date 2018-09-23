@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -22,14 +23,15 @@ import lombok.Data;
 @Data
 public class Instituicao implements Serializable{
 	@Id
-	@GeneratedValue
-	private Integer id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
+	private Long id;
 	
 	@Column(name="registro_governo", nullable=false)
-	private Integer registroGoverno;
+	private String registroGoverno;
 	
 
-	@Column(name="nome", nullable=false)
+	@Column(name="nome", nullable=false, length= 255)
 	private String nome;
 	
 	@OneToMany(cascade = CascadeType.ALL,  targetEntity = Curso.class, fetch = FetchType.LAZY)

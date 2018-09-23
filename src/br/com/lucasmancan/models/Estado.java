@@ -23,14 +23,15 @@ public class Estado implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
+	@Column(name="id")
+	private Long id;
 	
 	@Column(name="nome", nullable=false)
 	private String Nome;
 	
 
 	@ManyToOne
-	@JoinColumn(name="paises_id", nullable=false)
+	@JoinColumn(name="paises_id",referencedColumnName="id", nullable=false)
 	private Pais pais;
 	
 
