@@ -3,7 +3,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
 @Path("/pessoas")
-public class Pessoa {
+public class PessoaWebService {
 
 	@GET
 	@Path("/message")

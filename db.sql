@@ -7,7 +7,6 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema mydb
 -- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `mydb` ;
 
 -- -----------------------------------------------------
 -- Schema mydb
@@ -18,8 +17,6 @@ USE `mydb` ;
 -- -----------------------------------------------------
 -- Table `mydb`.`categorias`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`categorias` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`categorias` (
   `id` INT NOT NULL,
   `nome` VARCHAR(255) NULL,
@@ -29,30 +26,19 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`instituicao`
+-- Table `mydb`.`instituicoes`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`instituicao` ;
-
-CREATE TABLE IF NOT EXISTS `mydb`.`instituicao` (
+CREATE TABLE IF NOT EXISTS `mydb`.`instituicoes` (
   `id` INT NOT NULL,
   `nome` VARCHAR(45) NULL,
   `registro_governo` VARCHAR(45) NULL,
-  `pessoas_id` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_instituicao_pessoas1_idx` (`pessoas_id` ASC) VISIBLE,
-  CONSTRAINT `fk_instituicao_pessoas1`
-    FOREIGN KEY (`pessoas_id`)
-    REFERENCES `mydb`.`pessoas` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `mydb`.`cursos`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`cursos` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`cursos` (
   `id` INT NOT NULL,
   `nome` VARCHAR(45) NOT NULL,
@@ -61,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`cursos` (
   INDEX `fk_cursos_instituicao1_idx` (`instituicao_id` ASC) VISIBLE,
   CONSTRAINT `fk_cursos_instituicao1`
     FOREIGN KEY (`instituicao_id`)
-    REFERENCES `mydb`.`instituicao` (`id`)
+    REFERENCES `mydb`.`instituicoes` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
@@ -70,8 +56,6 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`pessoas`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`pessoas` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`pessoas` (
   `id` INT NOT NULL,
   `nome` VARCHAR(255) NOT NULL,
@@ -83,55 +67,52 @@ CREATE TABLE IF NOT EXISTS `mydb`.`pessoas` (
   `telefone_principal` INT NULL,
   `registro_instituicao` VARCHAR(45) NULL,
   `cursos_id` INT NOT NULL,
-  `instituicao_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_pessoas_cursos1_idx` (`cursos_id` ASC) VISIBLE,
-  INDEX `fk_pessoas_instituicao1_idx` (`instituicao_id` ASC) VISIBLE,
   CONSTRAINT `fk_pessoas_cursos1`
     FOREIGN KEY (`cursos_id`)
     REFERENCES `mydb`.`cursos` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_pessoas_instituicao1`
-    FOREIGN KEY (`instituicao_id`)
-    REFERENCES `mydb`.`instituicao` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `mydb`.`usuarios`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`usuarios` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`usuarios` (
   `data_inclusao` DATE NOT NULL,
   `data_alteracao` DATE NOT NULL,
   `categorias_id` INT NOT NULL,
   `senha` VARCHAR(45) NULL,
+  `id` INT NOT NULL,
+  `instituicao_id` INT NOT NULL,
   `pessoas_id` INT NOT NULL,
   INDEX `fk_usuarios_categorias1_idx` (`categorias_id` ASC) VISIBLE,
+  PRIMARY KEY (`id`),
+  INDEX `fk_usuarios_instituicao1_idx` (`instituicao_id` ASC) VISIBLE,
   INDEX `fk_usuarios_pessoas1_idx` (`pessoas_id` ASC) VISIBLE,
-  PRIMARY KEY (`pessoas_id`),
   CONSTRAINT `fk_usuarios_categorias1`
     FOREIGN KEY (`categorias_id`)
     REFERENCES `mydb`.`categorias` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_usuarios_instituicao1`
+    FOREIGN KEY (`instituicao_id`)
+    REFERENCES `mydb`.`instituicoes` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_usuarios_pessoas1`
     FOREIGN KEY (`pessoas_id`)
     REFERENCES `mydb`.`pessoas` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `mydb`.`emails`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`emails` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`emails` (
   `id` INT NOT NULL,
   `email` VARCHAR(45) NULL,
@@ -141,16 +122,14 @@ CREATE TABLE IF NOT EXISTS `mydb`.`emails` (
   CONSTRAINT `fk_emails_pessoas1`
     FOREIGN KEY (`pessoas_id`)
     REFERENCES `mydb`.`pessoas` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `mydb`.`telefones`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`telefones` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`telefones` (
   `id` INT NOT NULL,
   `telefone` VARCHAR(20) NULL,
@@ -160,16 +139,14 @@ CREATE TABLE IF NOT EXISTS `mydb`.`telefones` (
   CONSTRAINT `fk_telefones_pessoas1`
     FOREIGN KEY (`pessoas_id`)
     REFERENCES `mydb`.`pessoas` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `mydb`.`atividades`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`atividades` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`atividades` (
   `id` INT NOT NULL,
   `descricao` VARCHAR(255) NOT NULL,
@@ -187,24 +164,22 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`atividades_has_usuarios`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`atividades_has_usuarios` ;
-
 CREATE TABLE IF NOT EXISTS `mydb`.`atividades_has_usuarios` (
   `atividades_id` INT NOT NULL,
-  `usuarios_pessoas_id` INT NOT NULL,
-  PRIMARY KEY (`atividades_id`, `usuarios_pessoas_id`),
-  INDEX `fk_atividades_has_usuarios_usuarios1_idx` (`usuarios_pessoas_id` ASC) VISIBLE,
+  `usuarios_id` INT NOT NULL,
+  PRIMARY KEY (`atividades_id`, `usuarios_id`),
+  INDEX `fk_atividades_has_usuarios_usuarios1_idx` (`usuarios_id` ASC) VISIBLE,
   INDEX `fk_atividades_has_usuarios_atividades1_idx` (`atividades_id` ASC) VISIBLE,
   CONSTRAINT `fk_atividades_has_usuarios_atividades1`
     FOREIGN KEY (`atividades_id`)
     REFERENCES `mydb`.`atividades` (`id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_atividades_has_usuarios_usuarios1`
-    FOREIGN KEY (`usuarios_pessoas_id`)
-    REFERENCES `mydb`.`usuarios` (`pessoas_id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+    FOREIGN KEY (`usuarios_id`)
+    REFERENCES `mydb`.`usuarios` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 

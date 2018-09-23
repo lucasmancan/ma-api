@@ -11,7 +11,7 @@ public class App extends Application {
 	public Set<Class<?>> getClasses() {
 		if (classes == null) {
 			classes = new HashSet<>();
-			classes.add(Pessoa.class);
+			classes.add(PessoaWebService.class);
 		}
 
 		return classes;
