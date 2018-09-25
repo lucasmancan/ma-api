@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -23,6 +25,11 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "pessoas")
+@NamedQueries({
+	@NamedQuery(name = "Pessoa.FetchById", query = "SELECT PESSOA P LEFT JOIN FETCH P.EMAILS LEFT JOIN FETCH P.TELEFONES WHERE P.instituicao.id =: idInstituicao and P.resgistroInstituicao =: registroInstituicao"),
+	@NamedQuery(name = "Pessoa.FetchAll", query = "SELECT PESSOA P LEFT JOIN FETCH P.EMAILS LEFT JOIN FETCH P.TELEFONES"),
+	@NamedQuery(name = "Pessoa.FetchByName", query = "SELECT PESSOA P LEFT JOIN FETCH P.EMAILS LEFT JOIN FETCH P.TELEFONES WHERE P.instituicao.id =: idInstituicao and P.nome =: nome")
+})
 public class Pessoa implements Serializable {
 
 	@Id
@@ -30,9 +37,16 @@ public class Pessoa implements Serializable {
 	@Column(name = "id")
 	private Long id;
 	
-	@Column(name = "nome", nullable = true, length = 255)
+	@Column(name = "registro_instituicao", nullable = false, length = 20)
+	private String registroInstituicao;
+	
+	@Column(name = "nome", nullable = false, length = 255)
 	private String nome;
 
+	@ManyToOne
+	@JoinColumn(name = "instituicao_id", referencedColumnName = "id", nullable = false)
+	private Instituicao instituicao;
+	
 	@ManyToOne
 	@JoinColumn(name = "email_principal_id", referencedColumnName = "id", nullable = false)
 	private Email emailPrincipal;
