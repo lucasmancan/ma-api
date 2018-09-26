@@ -54,18 +54,20 @@ public class PessoaDao extends AbstractDao<Long, Pessoa> {
 		}
 	}
 
-	public boolean delete(Pessoa pessoa) {
-		if (!delete(pessoa)) {
-			return false;
+	public void delete(Pessoa pessoa) throws Exception  {
+		try {
+			delete(pessoa);
+		} catch (Exception ex) {
+			throw new Exception(ex);
 		}
-		return true;
 	}
 
-	public boolean apdate(Pessoa pessoa) {
-		if (!update(pessoa)) {
-			return false;
+	public void update(Pessoa pessoa) throws Exception {
+		try {
+			update(pessoa);
+		} catch (Exception ex) {
+			throw new Exception(ex);
 		}
-		return true;
 	}
 
 }

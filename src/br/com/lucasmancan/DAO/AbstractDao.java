@@ -43,11 +43,11 @@ public abstract class AbstractDao<PK extends Serializable, T> {
         return true;
     }
  
-    protected boolean delete(T entity){
+    protected boolean delete(T entity) throws Exception{
     	try{
     		entityManager.remove(entity);
         }catch (Exception e) {
-        	return false;
+        	throw new Exception(e);
 		}
         return true;
     }
