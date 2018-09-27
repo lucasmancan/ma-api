@@ -34,11 +34,11 @@ public abstract class AbstractDao<PK extends Serializable, T> {
         return true;
     }
      
-    protected boolean update(T entity) {
+    protected Exception update(T entity) throws Exception {
     	try{
     		entityManager.merge(entity);
         }catch (Exception e) {
-        	return false;
+        	return new Exception(e);
 		}
         return true;
     }
